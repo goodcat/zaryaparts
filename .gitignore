@@ -4,5 +4,4 @@
 *.sqlite
 *.groovy~
 *~$*
-*.jar
 workspace
