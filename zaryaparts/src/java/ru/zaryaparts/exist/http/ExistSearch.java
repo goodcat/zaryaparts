@@ -1,0 +1,54 @@
+package ru.zaryaparts.exist.http;
+
+import java.io.InputStream;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.log4j.Logger;
+
+public class ExistSearch {
+	Logger LOG = Logger.getLogger(ExistSearch.class);
+	
+	public SearchResult makeSearch(String partNumber) {
+		LOG.info("Make search, partNumber is " + partNumber);
+		SearchResult result = new SearchResult();
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		HttpGet searchRequest = new HttpGet("http://exist.ru/price.aspx?pcode=" + partNumber);
+		HttpResponse response = null;
+		try{
+			response = httpClient.execute(searchRequest);
+		}
+		catch(Exception e){
+			LOG.error("Error while executing search request", e);
+			result.setSearchStatus(SearchStatus.FAILURE);
+			return result;
+		}
+		if(response == null) {
+			LOG.warn("Response is NULL");
+			result.setSearchStatus(SearchStatus.FAILURE);
+			return result;
+		}
+		HttpEntity responseEntity = response.getEntity();
+		String httpContent = null;
+		try{
+			InputStream stream = responseEntity.getContent();
+			httpContent = IOUtils.toString(stream);
+		}
+		catch(Exception e){
+			LOG.error("Error while reading response", e);
+			result.setSearchStatus(SearchStatus.FAILURE);
+			return result;
+		}
+		if(httpContent != null) {
+			result.setHtmlContent(httpContent);
+			result.setSearchStatus(SearchStatus.SUCCESS);
+		}
+		else{
+			result.setSearchStatus(SearchStatus.FAILURE);
+		}
+		return result;
+	}
+}
