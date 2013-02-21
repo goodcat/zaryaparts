@@ -44,6 +44,7 @@ grails.project.dependency.resolution = {
         // runtime 'mysql:mysql-connector-java:5.1.20'
 
         compile 'org.apache.httpcomponents:httpclient:4.2.3'
+		compile 'org.jsoup:jsoup:1.7.2'
     }
 
     plugins {

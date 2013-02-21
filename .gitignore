@@ -1,4 +1,7 @@
-.class
-.bak
-.log
-.sqlite
+*.class
+*.bak
+*.log
+*.sqlite
+*.groovy~
+*~$*
+*.jar
