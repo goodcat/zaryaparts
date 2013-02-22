@@ -15,9 +15,11 @@ public class ExistParser {
 	Logger LOG = Logger.getLogger(ExistParser.class);
 
 	public ParseResult parse(String htmlContent) {
-		if (htmlContent == null)
-			throw new IllegalArgumentException("htmlContent is null");
 		ParseResult data = new ParseResult();
+		if (htmlContent == null){
+			LOG.warn("htmlContent for prsing is empty");
+			return data;
+		}
 		Document doc = Jsoup.parse(htmlContent);
 		Elements rows = doc.select("tr[id]");
 		if (rows == null) {

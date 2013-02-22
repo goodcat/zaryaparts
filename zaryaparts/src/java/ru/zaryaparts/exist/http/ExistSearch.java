@@ -1,6 +1,7 @@
 package ru.zaryaparts.exist.http;
 
 import java.io.InputStream;
+import java.net.URLEncoder;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -16,7 +17,15 @@ public class ExistSearch {
 		LOG.info("Make search, partNumber is " + partNumber);
 		SearchResult result = new SearchResult();
 		DefaultHttpClient httpClient = new DefaultHttpClient();
-		HttpGet searchRequest = new HttpGet("http://exist.ru/price.aspx?pcode=" + partNumber);
+		String searchUrl;
+		try{
+			searchUrl = "http://exist.ru/price.aspx?pcode=" + URLEncoder.encode(partNumber, "UTF-8");
+		}
+		catch(Exception e){
+			throw new RuntimeException("Error while encoding search URL");
+		}
+		System.out.println("searchUrl: " + searchUrl);
+		HttpGet searchRequest = new HttpGet(searchUrl);
 		HttpResponse response = null;
 		try{
 			response = httpClient.execute(searchRequest);
