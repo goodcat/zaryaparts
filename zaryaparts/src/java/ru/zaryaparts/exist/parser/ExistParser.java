@@ -1,6 +1,5 @@
 package ru.zaryaparts.exist.parser;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,13 +10,13 @@ import ru.zaryaparts.exist.http.ExistSearch;
 import ru.zaryaparts.exist.http.SearchResult;
 import ru.zaryaparts.exist.http.SearchStatus;
 
-public class ExistParser {
+public class ExistParser implements IParser {
 	Logger LOG = Logger.getLogger(ExistParser.class);
 
 	public ParseResult parse(String htmlContent) {
 		ParseResult data = new ParseResult();
 		if (htmlContent == null){
-			LOG.warn("htmlContent for prsing is empty");
+			LOG.warn("htmlContent for parsing is empty");
 			return data;
 		}
 		Document doc = Jsoup.parse(htmlContent);
