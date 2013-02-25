@@ -1,0 +1,40 @@
+package ru.zaryaparts.exist.parser;
+
+import org.apache.log4j.Logger;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class ExistCatalogParser implements IParser {
+	Logger LOG = Logger.getLogger(ExistCatalogParser.class);
+
+	@Override
+	public ParseResult parse(String htmlContent) {
+		LOG.info("Execute ExistCatalogParser.parse");
+		ParseResult data = new ParseResult();
+		if (htmlContent == null){
+			LOG.warn("htmlContent for parsing is empty");
+			return data;
+		}
+		Document doc = Jsoup.parse(htmlContent);
+		Elements searchResultTables = doc.select("class=tbl");
+		if(searchResultTables == null) {
+			LOG.warn("List of search result tables is null");
+			return null;
+		}
+		if(searchResultTables.size() < 1) {
+			LOG.warn("List of search result tables is empty");
+			return null;
+		}
+		if(searchResultTables.size() > 1) {
+			LOG.warn("Table of search result contains more then 1 element");
+		}
+		Element searchResultTable = searchResultTables.get(0);
+		return null;
+	}
+
+	public static void main(String[] args) {
+		
+	}
+}

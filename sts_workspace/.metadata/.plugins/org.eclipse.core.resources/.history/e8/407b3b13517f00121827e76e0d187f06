@@ -1,0 +1,62 @@
+package ru.zaryaparts.exist.parser;
+
+import org.apache.log4j.Logger;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class ExistCatalogParser implements IParser {
+	Logger LOG = Logger.getLogger(ExistCatalogParser.class);
+
+	@Override
+	public ParseResult parse(String htmlContent) {
+		LOG.info("Execute ExistCatalogParser.parse");
+		ParseResult data = new ParseResult();
+		if (htmlContent == null){
+			LOG.warn("htmlContent for parsing is empty");
+			return data;
+		}
+		Document doc = Jsoup.parse(htmlContent);
+		Elements searchResultTables = doc.select("class=tbl");
+		if(searchResultTables == null) {
+			LOG.warn("List of search result tables is null");
+			return null;
+		}
+		if(searchResultTables.size() < 1) {
+			LOG.warn("List of search result tables is empty");
+			return null;
+		}
+		if(searchResultTables.size() > 1) {
+			LOG.warn("Table of search result contains more then 1 element");
+		}
+		Element searchResultTable = searchResultTables.get(0);
+		Elements rows = searchResultTable.select("tr");
+		if(rows == null){
+			LOG.warn("Search result table rows is null");
+			return null;
+		}
+		if(rows.size() < 1) {
+			LOG.warn("Search result table rows is empty");
+			return null;
+		}
+		for(Element row : rows) {
+			Elements columns = row.select("td");
+			if(columns == null) {
+				LOG.warn("Columns in row of search result table is null");
+				continue;
+			}
+			if(columns.size() < 3){
+				LOG.warn("Not enough columns in search result table");
+				continue;
+			}
+			if(columns.size() > 3) LOG.warn("There is more then 3 columns in search result table");
+			
+		}
+		return null;
+	}
+
+	public static void main(String[] args) {
+		
+	}
+}

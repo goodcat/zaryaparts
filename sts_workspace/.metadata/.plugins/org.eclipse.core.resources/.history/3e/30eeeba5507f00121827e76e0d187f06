@@ -1,0 +1,5 @@
+package ru.zaryaparts.exist.parser;
+
+public class ParseCatalogResult {
+
+}

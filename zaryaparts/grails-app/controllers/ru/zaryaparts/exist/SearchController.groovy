@@ -13,8 +13,15 @@ class SearchController {
 		if(SearchStatus.SUCCESS != searchResult.getSearchStatus()){
 			render(view: "index",model: [data: null]);
 		}
-		ExistParser parser = new ExistParser();
-		ParseResult data = parser.parse(searchResult.getHtmlContent());
-		render(view: "index",model: [data: data.getParsedRows()]);
+		if(searchResult.getHtmlContent().indexOf("Указанный артикул") >= 0) {
+			ExistCatalogParser parser = new ExistCatalogParser();
+			ParseCatalogResult data = parser.parse(searchResult.getHtmlContent());
+			render(view: "catalog",model: [data: data.getParsedRows()]);
+		}
+		else {
+			ExistParser parser = new ExistParser();
+			ParseResult data = parser.parse(searchResult.getHtmlContent());
+			render(view: "index",model: [data: data.getParsedRows()]);
+		}
     }
 }

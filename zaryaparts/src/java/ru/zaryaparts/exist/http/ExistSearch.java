@@ -13,13 +13,22 @@ import org.apache.log4j.Logger;
 public class ExistSearch {
 	Logger LOG = Logger.getLogger(ExistSearch.class);
 	
+	private String paramName = null;
+	
 	public SearchResult makeSearch(String partNumber) {
 		LOG.info("Make search, partNumber is " + partNumber);
 		SearchResult result = new SearchResult();
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		String searchUrl;
+		String pname;
+		if(paramName == null) {
+			pname = "pcode";
+		}
+		else{
+			pname = paramName;
+		}
 		try{
-			searchUrl = "http://exist.ru/price.aspx?pcode=" + URLEncoder.encode(partNumber, "UTF-8");
+			searchUrl = "http://exist.ru/price.aspx?" + pname + "=" + URLEncoder.encode(partNumber, "UTF-8");
 		}
 		catch(Exception e){
 			throw new RuntimeException("Error while encoding search URL");
@@ -59,5 +68,13 @@ public class ExistSearch {
 			result.setSearchStatus(SearchStatus.FAILURE);
 		}
 		return result;
+	}
+
+	public String getParamName() {
+		return paramName;
+	}
+
+	public void setParamName(String paramName) {
+		this.paramName = paramName;
 	}
 }

@@ -1,0 +1,21 @@
+package ru.zaryaparts.exist.parser;
+
+import org.junit.Test;
+
+import ru.zaryaparts.exist.http.ExistSearch;
+import ru.zaryaparts.exist.http.SearchResult;
+import ru.zaryaparts.exist.http.SearchStatus;
+
+public class SearchTest {
+	@Test
+	public void testLoadCatalogPageAndLoadPartsPage() {
+		ExistSearch client = new ExistSearch();
+		SearchResult searchResult = client.makeSearch("90915-10001");
+		if(SearchStatus.SUCCESS != searchResult.getSearchStatus()){
+			return;
+		}
+		ExistCatalogParser parser = new ExistCatalogParser();
+		ParseCatalogResult data = parser.parse(searchResult.getHtmlContent());
+		System.out.println(data.getParsedRows());
+	}
+}

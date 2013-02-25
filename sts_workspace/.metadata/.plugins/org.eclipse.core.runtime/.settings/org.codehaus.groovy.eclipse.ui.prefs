@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+groovy.debug.filter.list=groovy.lang,groovy.ui,java.lang.reflect,org.codehaus.groovy,sun.misc,sun.reflect
+groovy.debug.force_options=false
+groovy.junit.monospace.font=true
+groovy.plugin.ask.to.convert=false
