@@ -1,3 +1,0 @@
-INDEX VERSION 1.126
-Z:\zaryaparts\sts_workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2624302804.index
-\zaryaparts\src\java
