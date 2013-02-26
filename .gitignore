@@ -5,3 +5,5 @@
 *.groovy~
 *~$*
 workspace
+sts_workspace
+*workspace*
