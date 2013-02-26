@@ -26,6 +26,7 @@ public class ExistParser implements IParser {
 			data.setParsingStatus(ParseStatus.NOT_FOUND);
 			return data;
 		}
+		ParsedRow prevRow = null;
 		for (Element row : rows) {
 			Elements columns = row.select("td");
 			if (columns == null) {
@@ -40,8 +41,37 @@ public class ExistParser implements IParser {
 				dataRow.setDescription(columns.get(2).text());
 				dataRow.setInformation(columns.get(3).text());
 				dataRow.setCount(columns.get(4).text());
-				dataRow.setPeriod(columns.get(5).text());
-				dataRow.setPrice(columns.get(6).text());
+				if(numberOfColumns >= 9) {
+					dataRow.setPeriod(columns.get(6).text());
+					dataRow.setPrice(columns.get(7).text());
+				}
+				else {
+					dataRow.setPeriod(columns.get(5).text());
+					dataRow.setPrice(columns.get(6).text());
+				}
+				prevRow = dataRow;
+			}
+			if(numberOfColumns == 5) {
+				if(prevRow != null){
+					dataRow.setFirmName(prevRow.getFirmName());
+					dataRow.setArticul(prevRow.getArticul());
+					dataRow.setDescription(prevRow.getDescription());
+					dataRow.setInformation(prevRow.getInformation());
+					dataRow.setCount(columns.get(0).text());
+					dataRow.setPeriod(columns.get(2).text());
+					dataRow.setPrice(columns.get(3).text());
+				}
+			}
+			if(numberOfColumns == 4) {
+				if(prevRow != null){
+					dataRow.setFirmName(prevRow.getFirmName());
+					dataRow.setArticul(prevRow.getArticul());
+					dataRow.setDescription(prevRow.getDescription());
+					dataRow.setInformation(prevRow.getInformation());
+					dataRow.setCount(columns.get(0).text());
+					dataRow.setPeriod(columns.get(1).text());
+					dataRow.setPrice(columns.get(2).text());
+				}
 			}
 			data.getParsedRows().add(dataRow);
 			data.setParsingStatus(ParseStatus.SUCCESS);

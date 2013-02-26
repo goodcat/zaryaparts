@@ -11,6 +11,7 @@
 				<thead>
 					<tr>
 						<th>Фирма</th>
+						<th>Артикул</th>
 						<th>Описание</th>
 						<th>Цены и заменители</th>
 					</tr>
@@ -22,9 +23,12 @@
 								${it.firmName}
 							</td>
 							<td>
+								${it.articul}
+							</td>
+							<td>
 								${it.description}
 							</td>
-							<td><a href="?pid=${it.pidProcessed}">Поиск</a></td>
+							<td><a href="<g:createLink action='catalog' params='[pid: "${it.pidProcessed}"]' />">Поиск</a></td>
 						</tr>
 					</g:each>
 				</tbody>

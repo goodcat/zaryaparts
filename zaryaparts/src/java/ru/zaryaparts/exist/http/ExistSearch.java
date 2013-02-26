@@ -1,6 +1,7 @@
 package ru.zaryaparts.exist.http;
 
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import org.apache.commons.io.IOUtils;
@@ -13,27 +14,20 @@ import org.apache.log4j.Logger;
 public class ExistSearch {
 	Logger LOG = Logger.getLogger(ExistSearch.class);
 	
-	private String paramName = null;
+	private static final String EXIST_SEARCH_ENTRY_POINT = "http://exist.ru/price.aspx";
+	
+	private boolean byPid = false;
 	
 	public SearchResult makeSearch(String partNumber) {
 		LOG.info("Make search, partNumber is " + partNumber);
 		SearchResult result = new SearchResult();
 		DefaultHttpClient httpClient = new DefaultHttpClient();
-		String searchUrl;
-		String pname;
-		if(paramName == null) {
-			pname = "pcode";
-		}
-		else{
-			pname = paramName;
-		}
-		try{
-			searchUrl = "http://exist.ru/price.aspx?" + pname + "=" + URLEncoder.encode(partNumber, "UTF-8");
-		}
-		catch(Exception e){
-			throw new RuntimeException("Error while encoding search URL");
-		}
+		String searchUrl = existSearchUrl(partNumber);
 		System.out.println("searchUrl: " + searchUrl);
+		if(searchUrl == null){
+			result.setSearchStatus(SearchStatus.FAILURE);
+			return result;
+		}
 		HttpGet searchRequest = new HttpGet(searchUrl);
 		HttpResponse response = null;
 		try{
@@ -69,12 +63,21 @@ public class ExistSearch {
 		}
 		return result;
 	}
-
-	public String getParamName() {
-		return paramName;
+	
+	private String existSearchUrl(String partNumber) {
+		try {
+			if (this.byPid) {
+				return EXIST_SEARCH_ENTRY_POINT + "?pid=" + URLEncoder.encode(partNumber, "UTF-8");
+			} else {
+				return EXIST_SEARCH_ENTRY_POINT + "?pcode=" + URLEncoder.encode(partNumber, "UTF-8");
+			}
+		} catch (UnsupportedEncodingException e) {
+			LOG.error("Error while encoding search URL ", e);
+			return null;
+		}
 	}
-
-	public void setParamName(String paramName) {
-		this.paramName = paramName;
+	
+	public void setByPid(boolean byPidFlag) {
+		this.byPid = byPidFlag;
 	}
 }

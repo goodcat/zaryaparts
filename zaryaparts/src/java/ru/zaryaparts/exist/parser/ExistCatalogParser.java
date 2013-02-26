@@ -60,22 +60,45 @@ public class ExistCatalogParser {
 			}
 			if (columns.size() > 3)
 				LOG.warn("There is more then 3 columns in search result table");
-			Element firmNameColumn = columns.get(0);
-			Element descriptionColumn = columns.get(1);
-			Element pidColumn = columns.get(2);
-			Elements pidLinks = pidColumn.select("a");
-			if(pidLinks == null || pidLinks.size() < 1){
-				LOG.warn("Links in column not found");
-				continue;
-			}
-			Element pidLink = pidLinks.get(0);
+			if (columns.size() >= 4) {
+				Element firmNameColumn = columns.get(0);
+				Element articulColumn = columns.get(1);
+				Element descriptionColumn = columns.get(2);
+				Element pidColumn = columns.get(3);
 
-			ParsedCatalogRow parsedRow = new ParsedCatalogRow();
-			parsedRow.setFirmName(firmNameColumn.text());
-			parsedRow.setDescription(descriptionColumn.text());
-			parsedRow.setPid(pidLink.attr("href"));
-			
-			data.getParsedRows().add(parsedRow);
+				Elements pidLinks = pidColumn.select("a");
+				if (pidLinks == null || pidLinks.size() < 1) {
+					LOG.warn("Links in column not found");
+					continue;
+				}
+				Element pidLink = pidLinks.get(0);
+
+				ParsedCatalogRow parsedRow = new ParsedCatalogRow();
+				parsedRow.setFirmName(firmNameColumn.text());
+				parsedRow.setArticul(articulColumn.text());
+				parsedRow.setDescription(descriptionColumn.text());
+				parsedRow.setPid(pidLink.attr("href"));
+
+				data.getParsedRows().add(parsedRow);
+			} else {
+				Element firmNameColumn = columns.get(0);
+				Element descriptionColumn = columns.get(1);
+				Element pidColumn = columns.get(2);
+
+				Elements pidLinks = pidColumn.select("a");
+				if (pidLinks == null || pidLinks.size() < 1) {
+					LOG.warn("Links in column not found");
+					continue;
+				}
+				Element pidLink = pidLinks.get(0);
+
+				ParsedCatalogRow parsedRow = new ParsedCatalogRow();
+				parsedRow.setFirmName(firmNameColumn.text());
+				parsedRow.setDescription(descriptionColumn.text());
+				parsedRow.setPid(pidLink.attr("href"));
+
+				data.getParsedRows().add(parsedRow);
+			}
 
 			data.setParsingStatus(ParseStatus.SUCCESS);
 		}
@@ -84,7 +107,7 @@ public class ExistCatalogParser {
 
 	public static void main(String[] args) {
 		ExistSearch client = new ExistSearch();
-		SearchResult searchResult = client.makeSearch("90915-10001");
+		SearchResult searchResult = client.makeSearch("11111");
 		if(SearchStatus.SUCCESS != searchResult.getSearchStatus()){
 			return;
 		}

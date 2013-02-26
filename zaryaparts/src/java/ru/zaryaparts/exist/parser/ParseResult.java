@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParseResult {
-	private List parsedRows = new ArrayList();
+	private List<ParsedRow> parsedRows = new ArrayList<ParsedRow>();
 	private ParseStatus parsingStatus = ParseStatus.NONE;
 	
-	public List getParsedRows() {
+	public List<ParsedRow> getParsedRows() {
 		return parsedRows;
 	}
-	public void setParsedRows(List parsedRows) {
+	public void setParsedRows(List<ParsedRow> parsedRows) {
 		this.parsedRows = parsedRows;
 	}
 	public ParseStatus getParsingStatus() {
@@ -18,6 +18,11 @@ public class ParseResult {
 	}
 	public void setParsingStatus(ParseStatus parsingStatus) {
 		this.parsingStatus = parsingStatus;
+	}
+	@Override
+	public String toString() {
+		return "ParseResult [parsedRows=" + parsedRows + ", parsingStatus="
+				+ parsingStatus + "]";
 	}
 	
 	

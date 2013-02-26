@@ -1,0 +1,27 @@
+package ru.zaryaparts.exist
+
+import ru.zaryaparts.exist.http.*;
+import ru.zaryaparts.exist.parser.*;
+
+class SearchController {
+
+    def index() { 
+    	print "Search: ${request.getParameter("partNumber")}"
+    	
+    	ExistSearch client = new ExistSearch();
+		SearchResult searchResult = client.makeSearch(request.getParameter("partNumber"));
+		if(SearchStatus.SUCCESS != searchResult.getSearchStatus()){
+			render(view: "not_found");
+		}
+		if(searchResult.getHtmlContent().indexOf("Указанный артикул") >= 0) {
+			ExistCatalogParser parser = new ExistCatalogParser();
+			ParseCatalogResult data = parser.parse(searchResult.getHtmlContent());
+			render(view: "catalog",model: [data: data.getParsedRows()]);
+		}
+		else {
+			ExistParser parser = new ExistParser();
+			ParseResult data = parser.parse(searchResult.getHtmlContent());
+			render(view: "index",model: [data: data.getParsedRows()]);
+		}
+    }
+}

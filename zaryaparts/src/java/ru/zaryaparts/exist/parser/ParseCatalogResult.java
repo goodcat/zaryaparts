@@ -20,5 +20,11 @@ public class ParseCatalogResult {
 		this.parsingStatus = parsingStatus;
 	}
 	
+	@Override
+	public String toString() {
+		return "ParseCatalogResult [parsedRows=" + parsedRows
+				+ ", parsingStatus=" + parsingStatus + "]";
+	}
+	
 	
 }
