@@ -19,11 +19,13 @@ public class ParseResult {
 	public void setParsingStatus(ParseStatus parsingStatus) {
 		this.parsingStatus = parsingStatus;
 	}
+
 	@Override
 	public String toString() {
-		return "ParseResult [parsedRows=" + parsedRows + ", parsingStatus="
-				+ parsingStatus + "]";
+		return "ParseResult [parsedRows="
+				+ (parsedRows == null ? "NULL"
+						: parsedRows.size() < 10 ? String.valueOf(parsedRows)
+								: String.valueOf(parsedRows.subList(0, 9)))
+				+ ", parsingStatus=" + parsingStatus + "]";
 	}
-	
-	
 }

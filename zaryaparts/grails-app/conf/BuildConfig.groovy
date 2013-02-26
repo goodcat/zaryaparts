@@ -47,6 +47,7 @@ grails.project.dependency.resolution = {
 		compile 'org.jsoup:jsoup:1.7.2'
 		compile 'log4j:log4j:1.2.17'
 		compile 'commons-io:commons-io:2.4'
+		compile 'commons-codec:commons-codec:1.7'
     }
 
     plugins {
