@@ -25,7 +25,7 @@ environments {
         }
     }
     production {
-        dataSource {
+/*        dataSource {
             dbCreate = "update"
             url = "jdbc:h2:prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
             pooled = true
@@ -39,6 +39,19 @@ environments {
                testOnReturn=true
                validationQuery="SELECT 1"
             }
-        }
+        }*/
+		dataSource {
+			dbCreate = "update"
+			driverClassName = "org.postgresql.Driver"
+			dialect = org.hibernate.dialect.PostgreSQLDialect
+		
+			uri = new URI(System.env.DATABASE_URL?:"postgres://postgres:12345678@localhost/zaryaparts")
+	
+			url = "jdbc:postgresql://"+uri.host+uri.path
+			username = uri.userInfo.split(":")[0]
+			password = uri.userInfo.split(":")[1]
+			
+			pooled = true
+		}
     }
 }

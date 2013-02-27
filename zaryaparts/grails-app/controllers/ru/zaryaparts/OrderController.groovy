@@ -6,7 +6,7 @@ class OrderController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 	
-	def beforeInterceptor = [action:this.&auth]
+	def beforeInterceptor = [action:this.&auth, except: 'newOrder']
 	
 	def auth() {
 		if(!session.user) {
@@ -134,7 +134,7 @@ class OrderController {
 		product.setOrder(order)
 		product.save()
 		
-		redirect(action: "list")
+		redirect(controller: 'appUser', view: 'listOrders')
 		return
 	}
 	
