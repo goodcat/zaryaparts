@@ -5,10 +5,17 @@ class AppUser {
 	String password
 	String name
 	String phone
+	UserRoleEnum role
+	
+	static hasMany = [orders: Order]
 
     static constraints = {
 		email(unique: true)
 		password(password: true)
     }
 	
+	@Override
+	public String toString(){
+		return email
+	}
 }

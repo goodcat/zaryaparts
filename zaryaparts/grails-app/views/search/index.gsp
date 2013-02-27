@@ -5,7 +5,6 @@
 		<title>ZaryaParts</title>
 	</head>
 	<body>
-    <div class="container">
 
 	<g:if test="${data != null && data.size() > 0}">
 		<table class="table table-striped table-bordered table-condensed table-hover">
@@ -31,7 +30,18 @@
     		<td>${it.count}</td>
     		<td>${it.period}</td>
     		<td>${it.price}</td>
-    		<td>+</td>
+    		<td>
+    		<g:if test="${session.user}">
+    		<g:link controller="order" action="newOrder" 
+    		params='[firmName: "${it.firmName}",
+    				articul: "${it.articul}",
+    				description: "${it.description}",
+    				price: "${it.price}"]' title="Заказать">+</g:link>
+    		</g:if>
+    		<g:else>
+    		+
+    		</g:else>		
+    		</td>
     		</tr>
 		</g:each>
 		</tbody>
@@ -40,8 +50,6 @@
 	<g:else>
 		<p>Не найдено</p>
 	</g:else>
-
-    </div>
     
 	</body>
 </html>

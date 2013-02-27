@@ -5,9 +5,6 @@
 <title>ZaryaParts</title>
 </head>
 <body>
-	<div class="container">
-		<div class="alert alert-error">Не найдено</div>
-	</div>
-
+	<div class="alert alert-error">Не найдено</div>
 </body>
 </html>
