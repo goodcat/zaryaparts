@@ -4,7 +4,7 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class AppUserController {
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "POST", update: "POST", delete: "POST", newUser: "POST"]
 
     def index() {
         redirect(action: "list", params: params)
@@ -108,12 +108,41 @@ class AppUserController {
 			return
 		}
 		List orderList = AppUser.executeQuery("""
-		SELECT o.createDate, p.firmName, p.description, p.articul, p.price
+		SELECT o.createDate, p.firmName, p.description, p.articul, p.price, o.id
 		FROM ru.zaryaparts.Order o, ru.zaryaparts.Product p
 		WHERE o.user.id = ?
 		AND p.order = o 
 		ORDER BY o.createDate
 		""", user.id)	
 		render(view: 'listOrders', model: [orders: orderList])
+	}
+	
+	def register() {
+		
+	}
+	
+	def newUser() {
+		def u = new AppUser(params)
+		u.role = UserRoleEnum.CUSTOMER
+		u.validate()
+		
+		if(params['password']?.equals(params['passwordConfirm']) == false){
+			u.errors.rejectValue("password", "Пароль и Подтверждение пароля не совпадают")
+		}
+		
+		if(u.hasErrors()) {
+			render(controller: 'appUser', view: 'register', model: [user: u])
+			return
+		}
+		
+		u.password = HashCodec.encode(u.password)
+		
+		if(!u.save()) {
+			render(controller: 'appUser', view: 'register', model: [user: u])
+			return
+		}
+		
+		session.user = u
+		redirect(controller: '/')
 	}
 }

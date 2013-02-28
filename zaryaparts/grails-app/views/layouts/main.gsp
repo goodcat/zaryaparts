@@ -45,7 +45,7 @@ body {
 					<ul class="nav pull-right">
 						<g:if test="${session.user == null}">
 							<li><g:link controller='login'>Войти</g:link></li>
-							<li><a href="#">Регистрация</a></li>
+							<li><g:link controller='appUser' action='register'>Регистрация</g:link></li>
 						</g:if>
 						<g:else>
 							<li>

@@ -15,6 +15,7 @@
 					<th>Описание</th>
 					<th>Артикул</th>
 					<th>Цена</th>
+					<th>&nbsp;</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -25,6 +26,7 @@
 					<td>${order[2]}</td>
 					<td>${order[3]}</td>
 					<td>${order[4]}</td>
+					<td><g:link controller="order" action="deleteOrder" params='[id: "${order[5]}"]'>-</g:link></td>
 				</tr>
 		</g:each>
 			</tbody>

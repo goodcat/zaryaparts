@@ -6,7 +6,7 @@ class OrderController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 	
-	def beforeInterceptor = [action:this.&auth, except: 'newOrder']
+	def beforeInterceptor = [action:this.&auth, except: ['newOrder', 'deleteOrder']]
 	
 	def auth() {
 		if(!session.user) {
@@ -134,8 +134,21 @@ class OrderController {
 		product.setOrder(order)
 		product.save()
 		
-		redirect(controller: 'appUser', view: 'listOrders')
-		return
+		redirect(controller: 'appUser', action: 'listOrders')
+	}
+	
+	def deleteOrder(Long id) {
+		def user = session.user
+		if(user == null) {
+			flash.message = "Пользователь не найден"
+			redirect(url: request.getHeader('referer'))
+			return
+		}
+		def order = Order.get(id)
+		if(order.user.id.equals(user.id)) {
+			order.delete()
+			redirect(controller: 'appUser', action: 'listOrders')
+		}
 	}
 	
 	private static String extractPrice(String price){
