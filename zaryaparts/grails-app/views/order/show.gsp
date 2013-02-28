@@ -45,7 +45,7 @@
 			
 				<g:if test="${orderInstance?.user}">
 				<li class="fieldcontain">
-					<span id="user-label" class="property-label"><g:message code="order.user.label" default="User" /></span>
+					<span id="user-label" class="property-label"><g:message code="order.appUser.label" default="User" /></span>
 					
 						<span class="property-value" aria-labelledby="user-label"><g:link controller="appUser" action="show" id="${orderInstance?.user?.id}">${orderInstance?.user?.encodeAsHTML()}</g:link></span>
 					

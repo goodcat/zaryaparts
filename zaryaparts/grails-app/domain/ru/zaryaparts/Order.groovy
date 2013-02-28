@@ -4,7 +4,7 @@ class Order {
 	Date createDate
 	
 	static hasMany = [products: Product]
-	static belongsTo = [user: AppUser]
+	static belongsTo = [appUser: AppUser]
 	
 	static mapping = {
 		table 'z_order'

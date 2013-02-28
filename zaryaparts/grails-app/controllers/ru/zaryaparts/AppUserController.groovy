@@ -110,7 +110,7 @@ class AppUserController {
 		List orderList = AppUser.executeQuery("""
 		SELECT o.createDate, p.firmName, p.description, p.articul, p.price, o.id
 		FROM ru.zaryaparts.Order o, ru.zaryaparts.Product p
-		WHERE o.user.id = ?
+		WHERE o.appUser.id = ?
 		AND p.order = o 
 		ORDER BY o.createDate
 		""", user.id)	

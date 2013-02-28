@@ -26,7 +26,7 @@
 					
 						<g:sortableColumn property="createDate" title="${message(code: 'order.createDate.label', default: 'Create Date')}" />
 					
-						<th><g:message code="order.user.label" default="User" /></th>
+						<th><g:message code="order.appUser.label" default="User" /></th>
 					
 					</tr>
 				</thead>

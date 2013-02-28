@@ -123,7 +123,7 @@ class OrderController {
 		
 		def order = new Order()
 		order.setCreateDate(new Date())
-		order.user = user
+		order.appUser = user
 		order.save()
 		
 		def product = new Product()
@@ -145,7 +145,7 @@ class OrderController {
 			return
 		}
 		def order = Order.get(id)
-		if(order.user.id.equals(user.id)) {
+		if(order.appUser.id.equals(user.id)) {
 			order.delete()
 			redirect(controller: 'appUser', action: 'listOrders')
 		}

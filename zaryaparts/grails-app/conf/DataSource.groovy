@@ -47,7 +47,7 @@ environments {
 		
 			uri = new URI(System.env.DATABASE_URL?:"postgres://postgres:12345678@localhost/zaryaparts")
 	
-			url = "jdbc:postgresql://"+uri.host+uri.path
+			url = "jdbc:postgresql://"+uri.host+uri.path+"?useUnicode=true&characterEncoding=UTF-8"
 			username = uri.userInfo.split(":")[0]
 			password = uri.userInfo.split(":")[1]
 			

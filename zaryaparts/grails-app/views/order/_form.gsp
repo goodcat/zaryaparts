@@ -29,7 +29,7 @@
 
 <div class="fieldcontain ${hasErrors(bean: orderInstance, field: 'user', 'error')} required">
 	<label for="user">
-		<g:message code="order.user.label" default="User" />
+		<g:message code="order.appUser.label" default="User" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:select id="user" name="user.id" from="${ru.zaryaparts.AppUser.list()}" optionKey="id" required="" value="${orderInstance?.user?.id}" class="many-to-one"/>
