@@ -26,6 +26,7 @@ public class ExistParser implements IParser {
 			data.setParsingStatus(ParseStatus.NOT_FOUND);
 			return data;
 		}
+		boolean extColumn = isInfColumn(doc);
 		ParsedRow prevRow = null;
 		for (Element row : rows) {
 			Elements columns = row.select("td");
@@ -42,8 +43,13 @@ public class ExistParser implements IParser {
 				dataRow.setInformation(columns.get(3).text());
 				dataRow.setCount(columns.get(4).text());
 				if(numberOfColumns >= 9) {
-					dataRow.setPeriod(columns.get(6).text());
-					dataRow.setPrice(columns.get(7).text());
+					if (extColumn) {
+						dataRow.setPeriod(columns.get(5).text());
+						dataRow.setPrice(columns.get(6).text());
+					} else {
+						dataRow.setPeriod(columns.get(6).text());
+						dataRow.setPrice(columns.get(7).text());
+					}
 				}
 				else {
 					dataRow.setPeriod(columns.get(5).text());
@@ -77,6 +83,18 @@ public class ExistParser implements IParser {
 			data.setParsingStatus(ParseStatus.SUCCESS);
 		}
 		return data;
+	}
+	
+	private boolean isInfColumn(Document doc) {
+		Elements thList = doc.select("th[scope]");
+		if(thList != null) {
+			if(thList.size() >= 2) {
+				Element lastTh = thList.get(thList.size() - 2);
+				String text = lastTh.text();
+				return "Инф".equals(text);
+			}
+		}
+		return false;
 	}
 
 	public static void main(String[] args) throws Exception {

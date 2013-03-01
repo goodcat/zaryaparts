@@ -76,6 +76,14 @@ log4j = {
     //appenders {
     //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
     //}
+	
+	root {
+		trace 'stdout', 'file'
+	}
+	
+	appenders {
+		console name: "stdout", threshold: org.apache.log4j.Level.TRACE
+	}
 
     error  'org.codehaus.groovy.grails.web.servlet',        // controllers
            'org.codehaus.groovy.grails.web.pages',          // GSP
@@ -88,5 +96,6 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+	trace 'ru.zaryaparts'
 
 }

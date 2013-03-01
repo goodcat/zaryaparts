@@ -10,8 +10,8 @@ class Order {
 		table 'z_order'
 	}
 
-    static constraints = {
-    }
+	static constraints = {
+	}
 	
 	@Override
 	public String toString() {

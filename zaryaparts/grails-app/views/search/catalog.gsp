@@ -5,6 +5,10 @@
 <title>ZaryaParts</title>
 </head>
 <body>
+	<p>
+		<g:render template="/search"></g:render>
+	</p>
+	
 	<g:if test="${data != null && data.size() > 0}">
 		<table class="table table-striped table-bordered table-condensed">
 			<thead>

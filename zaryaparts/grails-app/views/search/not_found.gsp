@@ -6,5 +6,8 @@
 </head>
 <body>
 	<div class="alert alert-error">Не найдено</div>
+	<p>
+		<g:render template="/search"></g:render>
+	</p>
 </body>
 </html>
